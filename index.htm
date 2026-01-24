@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            box-sizing: border-box;
+            padding: 0;
+        }
+        body{
+        }
+        #umumi{
+            width: 400px;
+            border: 1px solid #b0aeae;
+            margin: auto;
+            border-radius: 10px;
+            padding:0 10px ;
+        }
+        .mebleg{
+            background: #eef3ff;
+            width: 350px;
+            margin: auto;
+            border-radius: 10px;
+            padding:5px 10px ;
+            margin:  10px auto;
+        }
+        .faiz1{
+            background: #fef4f0;
+            width: 350px;
+            margin: auto;
+            border-radius: 15px;
+            padding:5px 10px ;
+            margin:  10px auto;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="umumi">
+        <div class="mebleg">
+            <p>Kredit meblegi</p>
+            <input type="range" min="200" onchange="hesabla()" value="200" max="100000" id="k">
+            <p id="k1"></p>
+        </div>
+        <div class="mebleg">
+            <p>Muddet</p>
+            <input type="range" min="3" onchange="hesabla()" value="3" max="60" id="m">
+            <p id="m1"></p>
+        </div>
+        <div class="faiz1">
+            <p>Faiz derecesi</p>
+        <input type="range" min="1" onchange="hesabla()" max="40" value="1" id="f">
+        <p id="f1"></p>
+        </div>
+        <div class="" style="width: 350px; margin:auto;">
+            <p id="faiz"></p>
+            <p id="yekun"></p>
+            <p id="ayliq"></p>
+        </div>
+    </div>
+    <script>
+        //const =document.getElementById('')
+        const ayliq = document.getElementById('ayliq')
+        const yekun = document.getElementById('yekun')
+        const k = document.getElementById('k')
+        const k1 = document.getElementById('k1')
+        const m = document.getElementById('m')
+        const m1 = document.getElementById('m1')
+        const f = document.getElementById('f')
+        const f1 = document.getElementById('f1')
+        const faiz = document.getElementById('faiz')
+        function hesabla() {
+            k1.innerHTML = k.value + " ₼"
+            m1.innerHTML = m.value + " ay"
+            f1.innerHTML = f.value + " %"
+            yekun.innerHTML = `Yekun mebleg: ${k.value * (1 + f.value/100 * (m.value / 12))}`
+            ayliq.innerHTML = `Ayliq mebleg: ${(k.value * (1 + f.value/100 * (m.value / 12)) / m.value)}`
+            faiz.innerHTML = `Faiz mebleg: ${k.value * f.value/100 * (m.value / 12)}`
+        }
+
+
+    </script>
+</body>
+
+</html>
