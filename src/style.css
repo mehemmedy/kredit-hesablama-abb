@@ -1,0 +1,62 @@
+/* Standart dizaynı sıfırlayıb, xəttin ümumi (boz) fonunu veririk */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 20px; /* Xəttin qalınlığı */
+  background: #e5e7eb; /* Sağ tərəfin (boş hissənin) açıq boz rəngi */
+  border-radius: 20px; /* Kənarların tam yumru olması üçün */
+  outline: none;
+  overflow: hidden; /* Sol tərəfin göy rənglə dolması üçün ən vacib sətir */
+  cursor: pointer;
+}
+
+/* WebKit (Chrome, Safari, Edge) üçün tutacaq (Thumb) və sol tərəfin göy rəngi */
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 8px; /* İçəridəki ağ kapsulun eni */
+  height: 20px; /* Hündürlük xəttlə eyni olmalıdır */
+  background-color: #ffffff; /* Kapsulun öz rəngi */
+  border: 3px solid #1b63ed; /* Kapsulun kənarındakı göy xətt */
+  border-radius: 10px; /* Kapsulu yumrulamaq üçün */
+  
+  /* Sol tərəfi arxaya doğru göy rəngə boyayan CSS hiyləsi */
+  box-shadow: -10008px 0 0 10000px #1b63ed; 
+}
+
+/* Firefox dəstəyi üçün */
+input[type="range"]::-moz-range-track {
+  width: 100%;
+  height: 20px;
+  background: #e5e7eb;
+  border-radius: 20px;
+}
+
+input[type="range"]::-moz-range-progress {
+  background: #1b63ed;
+  height: 20px;
+  border-radius: 20px 0 0 20px;
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 8px;
+  height: 20px;
+  background-color: #ffffff;
+  border: 3px solid #1b63ed;
+  border-radius: 10px;
+  box-sizing: border-box;
+}
+
+.activ{
+  background-color: black;
+  color: white;
+}
+.notactiv{
+  background-color: white;
+  color: black;
+}
+.notactiv:hover{
+  background-color: black;
+  color: white;
+}

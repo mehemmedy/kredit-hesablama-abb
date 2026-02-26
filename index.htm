@@ -4,85 +4,256 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <style>
-        *{
-            box-sizing: border-box;
-            padding: 0;
-        }
-        body{
-        }
-        #umumi{
-            width: 400px;
-            border: 1px solid #b0aeae;
-            margin: auto;
-            border-radius: 10px;
-            padding:0 10px ;
-        }
-        .mebleg{
-            background: #eef3ff;
-            width: 350px;
-            margin: auto;
-            border-radius: 10px;
-            padding:5px 10px ;
-            margin:  10px auto;
-        }
-        .faiz1{
-            background: #fef4f0;
-            width: 350px;
-            margin: auto;
-            border-radius: 15px;
-            padding:5px 10px ;
-            margin:  10px auto;
-        }
-    </style>
+    <title>ABB hesabla</title>
+    <link href="src/output.css" rel="stylesheet">
+    <link href="src/input.css" rel="stylesheet">
+    <link href="src/style.css" rel="stylesheet">
 </head>
 
 <body>
-    <div id="umumi">
-        <div class="mebleg">
-            <p>Kredit meblegi</p>
-            <input type="range" min="200" onchange="hesabla()" value="200" max="100000" id="k">
-            <p id="k1"></p>
+    <h1 class="text-center text-[48px] font-semibold mt-6 mb-6">Indi Hesablayin</h1>
+    <div class="flex gap-4 justify-center">
+        <span onclick="kecid(this,0)" class="activ px-3 py-2 rounded-xl">Kredit</span>
+        <span onclick="kecid(this,1)" class="notactiv px-3 py-2 rounded-xl">Depozit</span>
+        <span onclick="kecid(this,2)" class="notactiv px-3 py-2 rounded-xl">Avtomobil krediti</span>
+        <span onclick="kecid(this,3)" class="notactiv px-3 py-2 rounded-xl">Ipoteka</span>
+    </div>
+    <div id="kredit" class="flex justify-center gap-14 p-10">
+        <div class="flex flex-col w-[35%]">
+            <div class="my-2">
+                <div class="flex justify-between my-2">
+                    <span class="text-[#7a7d82]">Mebleg</span>
+                    <span id="meblegvalue" class="font-semibold text-[19px]">10000 ₼</span>
+                </div>
+                <input oninput="yerlesdir()" type="range" class="w-full" id="mebleg" value="10000" min="300"
+                    max="50000">
+                <div class="flex justify-between my-2">
+                    <span class="text-[#7a7d82]">300 ₼</span>
+                    <span class="text-[#7a7d82]">50000 ₼</span>
+                </div>
+            </div>
+            <div class="my-2">
+                <div class="flex justify-between my-2">
+                    <span class="text-[#7a7d82]">Muddet</span>
+                    <span id="muddetvalue" class="font-semibold text-[19px]">12 ay</span>
+                </div>
+                <input oninput="yerlesdir()" type="range" class="w-full" value="12" id="muddet" min="3" max="59">
+                <div class="flex justify-between my-2">
+                    <span class="text-[#7a7d82]">3 ay</span>
+                    <span class="text-[#7a7d82]">59 ay</span>
+                </div>
+            </div>
+            <div class="my-2">
+                <div class="flex justify-between my-2">
+                    <span class="text-[#7a7d82]">Faiz derecesi</span>
+                    <span id="faizvalue" class="font-semibold text-[19px]">12 %</span>
+                </div>
+                <input oninput="yerlesdir()" step="0.1" type="range" class="w-full" id="faiz" value="12" min="10.9"
+                    max="37.7">
+                <div class="flex justify-between my-2">
+                    <span class="text-[#7a7d82]">10.9 %</span>
+                    <span class="text-[#7a7d82]">37.7 %</span>
+                </div>
+            </div>
         </div>
-        <div class="mebleg">
-            <p>Muddet</p>
-            <input type="range" min="3" onchange="hesabla()" value="3" max="60" id="m">
-            <p id="m1"></p>
-        </div>
-        <div class="faiz1">
-            <p>Faiz derecesi</p>
-        <input type="range" min="1" onchange="hesabla()" max="40" value="1" id="f">
-        <p id="f1"></p>
-        </div>
-        <div class="" style="width: 350px; margin:auto;">
-            <p id="faiz"></p>
-            <p id="yekun"></p>
-            <p id="ayliq"></p>
+        <div class="w-[35%] flex flex-col">
+            <div class="bg-[#1b63ed] h-[80%] w-full rounded-3xl p-[32px] text-center">
+                <h4 class="text-white">Aylıq kredit ödənişi</h4>
+                <h1 id="ayliq" class="text-[40px] mb-10 mt-3 font-semibold text-white">888.49 ₼</h1>
+                <button class="bg-white w-full p-4 rounded-2xl">Davam et</button>
+            </div>
+            <p class="text-center mt-3">İlkin hesablama</p>
         </div>
     </div>
-    <script>
-        //const =document.getElementById('')
-        const ayliq = document.getElementById('ayliq')
-        const yekun = document.getElementById('yekun')
-        const k = document.getElementById('k')
-        const k1 = document.getElementById('k1')
-        const m = document.getElementById('m')
-        const m1 = document.getElementById('m1')
-        const f = document.getElementById('f')
-        const f1 = document.getElementById('f1')
-        const faiz = document.getElementById('faiz')
-        function hesabla() {
-            k1.innerHTML = k.value + " ₼"
-            m1.innerHTML = m.value + " ay"
-            f1.innerHTML = f.value + " %"
-            yekun.innerHTML = `Yekun mebleg: ${k.value * (1 + f.value/100 * (m.value / 12))}`
-            ayliq.innerHTML = `Ayliq mebleg: ${(k.value * (1 + f.value/100 * (m.value / 12)) / m.value)}`
-            faiz.innerHTML = `Faiz mebleg: ${k.value * f.value/100 * (m.value / 12)}`
-        }
+    <div id="depozit" class="hidden justify-center gap-14 p-10">
+        <div class="flex flex-col w-[35%]">
+            <div class="flex justify-between">
+                <div class="bg-[#f5f5f6] p-3 rounded-2xl">
+                    <span onclick="illik(0)" id="heray"
+                        class="m-1 p-2 rounded-xl border-2 border-[#aeaeae] bg-white">Her ay</span>
+                    <span onclick="illik(1)" id="heril" class="m-1 p-2 rounded-xl">Her il</span>
+                </div>
+                <div class="bg-[#f5f5f6] p-3 rounded-2xl">
+                    <span onclick="aznusd(0)" id="azn"
+                        class="m-1 p-2 rounded-xl border-2 border-[#aeaeae] bg-white">AZN</span>
+                    <span onclick="aznusd(1)" id="usd" class="m-1 p-2 rounded-xl">USD</span>
+                </div>
+            </div>
+            <div class="my-2">
+                <div class="flex justify-between my-2">
+                    <span class="text-[#7a7d82]">Mebleg</span>
+                    <span id="depozitmeblegvalue" class="font-semibold text-[19px]">10000 ₼</span>
+                </div>
+                <input oninput="yerlesdirdepozit()" type="range" class="w-full" id="depozitmebleg" value="300" min="300"
+                    max="3000000">
+                <div class="flex justify-between my-2">
+                    <span id="mindeyer" class="text-[#7a7d82]">300 ₼</span>
+                    <span id="maxdeyer" class="text-[#7a7d82]">3000000 ₼</span>
+                </div>
+            </div>
+            <p class="text-[#7a7d82]">Muddet</p>
+            <div class="flex gap-2">
+                <span onclick="muddetSec(1)" id="birayliq" class="p-2 px-4 bg-[#f1f1f1] rounded-[50%]">1</span>
+                <span onclick="muddetSec(3)" class="p-2 px-4 bg-[#f1f1f1] rounded-[50%]">3</span>
+                <span onclick="muddetSec(6)" class="p-2 px-4 bg-[#f1f1f1] rounded-[50%]">6</span>
+                <span onclick="muddetSec(12)" class="p-2 px-3 bg-[#f1f1f1] rounded-[50%]">12</span>
+                <span onclick="muddetSec(18)" class="p-2 px-3 bg-[#f1f1f1] rounded-[50%]">18</span>
+                <span onclick="muddetSec(24)" id="ayliq24" class="p-2 px-3 bg-[#f1f1f1] rounded-[50%]">24</span>
+                <span onclick="muddetSec(36)" id="ayliq36" class="p-2 px-3 bg-[#f1f1f1] rounded-[50%]">36</span>
+            </div>
+        </div>
+        <div class="w-[26%] flex flex-col">
+            <div class="bg-[#1b63ed]  text-white w-full rounded-3xl p-[32px] ">
+                <h4 class="text-white text-center">Umumi qazanc</h4>
+                <h1 id="umumiqazanc" class="text-[40px] mb-10 mt-3 font-semibold text-center text-white">200.00 ₼</h1>
+                <div class="flex gap-12">
+                    <div class="">
+                        <p id="odenilenfaiztitle">Her ay odenilen faiz</p>
+                        <p id="odenilenfaizbottom" class="text-[25px]">66.67 ₼</p>
+                    </div>
+                    <div class="">
+                        <p>Faiz derecesi</p>
+                        <p class="text-[25px]">8 %</p>
+                    </div>
+                </div>
 
-
-    </script>
+            </div>
+        </div>
+    </div>
+    <div id="avtomobilkrediti" class="hidden justify-center gap-14 p-10">
+        <div class="flex flex-col w-[35%]">
+            <div class="bg-[#f5f5f6] p-3 rounded-2xl w-fit">
+                <span onclick="elektrik(0)" id="elektrikli"
+                    class="m-1 p-2 rounded-xl border-2 border-[#aeaeae] bg-white">Her ay</span>
+                <span onclick="elektrik(1)" id="hibrid" class="m-1 p-2 rounded-xl">Her il</span>
+                <span onclick="elektrik(2)" id="diger" class="m-1 p-2 rounded-xl">Her il</span>
+            </div>
+            <div class="my-2">
+                <div class="flex justify-between my-2">
+                    <span class="text-[#7a7d82]">Avtomobilin qiyməti</span>
+                    <span id="avtoqiymet1" class="font-semibold text-[19px]">50000 ₼</span>
+                </div>
+                <input oninput="yerlesdiravtomobil()" id="avtoqiymet" type="range" class="w-full"  value="50000" min="300"
+                    max="500000">
+                <div class="flex justify-between my-2">
+                    <span  class="text-[#7a7d82]">300 ₼</span>
+                    <span  class="text-[#7a7d82]">500000 ₼</span>
+                </div>
+            </div>
+            <div class="my-2">
+                <div class="flex justify-between my-2">
+                    <span class="text-[#7a7d82]">İlkin ödəniş faizi</span>
+                    <span id="avtofaiz1" class="font-semibold text-[19px]">40 %</span>
+                </div>
+                <input oninput="yerlesdiravtomobil()" id="avtofaiz" type="range" class="w-full" value="40" min="10"
+                    max="90">
+                <div class="flex justify-between my-2">
+                    <span id="faizmin" class="text-[#7a7d82]">10 %</span>
+                    <span  class="text-[#7a7d82]">90 %</span>
+                </div>
+            </div>
+            <div class="my-2">
+                <div class="flex justify-between my-2">
+                    <span class="text-[#7a7d82]">Kredit müddəti</span>
+                    <span id="avtomuddet1" class="font-semibold text-[19px]">24 ay</span>
+                </div>
+                <input oninput="yerlesdiravtomobil()" id="avtomuddet" type="range" class="w-full"  value="24" min="3"
+                    max="60">
+                <div class="flex justify-between my-2">
+                    <span  class="text-[#7a7d82]">3 ay</span>
+                    <span  class="text-[#7a7d82]">60 ay</span>
+                </div>
+            </div>
+        </div>
+        <div class="w-[35%] flex flex-col">
+            <div class="bg-[#1b63ed]  w-full rounded-3xl p-[32px] ">
+                <h4 class="text-white text-center">Aylıq kredit ödənişi</h4>
+                <h1 id="avtoayliq" class="text-[40px] text-center mb-10 mt-3 font-semibold text-white">1920.52 ₼</h1>
+                <div class="flex w-[80%] justify-between m-auto my-5">
+                    <div class="">
+                        <p class="text-white">Kredit məbləği</p>
+                        <p id="kreditmebleg" class="text-[25px] font-semibold text-white">40000 ₼</p>
+                    </div>
+                    <div class="">
+                        <p class="text-white">İllik faiz dərəcəsi</p>
+                        <p id="illikfaizderecesi1" class="text-[25px] font-semibold text-white">14 %</p>
+                    </div>
+                </div>
+                <div class="flex w-[80%] justify-between m-auto my-5">
+                    <div class="">
+                        <p class="text-white">Komissiya (0.5%, min 20 AZN)</p>
+                        <p id="komisya" class="text-[25px] font-semibold text-white">2000 ₼</p>
+                    </div>
+                    <div class="">
+                        <p class="text-white">Ümumi ödəniş</p>
+                        <p id="umumiodenis" class="text-[25px] font-semibold text-white">46092.48 ₼</p>
+                    </div>
+                </div>
+                <button class="bg-white text-center w-full p-4 rounded-2xl">Davam et</button>
+            </div>
+            <p class="text-center mt-3">İlkin hesablama</p>
+        </div>
+    </div>
+    <div id="ipoteka" class="hidden justify-center gap-14 p-10">
+        <div class="flex flex-col w-[35%]">
+            <div class="my-2">
+                <div class="flex justify-between my-2">
+                    <span class="text-[#7a7d82]">Kredit mebleg</span>
+                    <span id="kreditmeblegipoteka1" class="font-semibold text-[19px]">100000 ₼</span>
+                </div>
+                <input oninput="ayliqhesablaipoteka()" type="range" class="w-full" id="meblegipoteka" value="100000" min="1"
+                    max="500000">
+                <div class="flex justify-between my-2">
+                    <span class="text-[#7a7d82]">1 ₼</span>
+                    <span class="text-[#7a7d82]">500000 ₼</span>
+                </div>
+            </div>
+            <div class="my-2">
+                <div class="flex justify-between my-2">
+                    <span class="text-[#7a7d82]">Muddet</span>
+                    <span id="muddetipotekavalue" class="font-semibold text-[19px]">12 il</span>
+                </div>
+                <input oninput="ayliqhesablaipoteka()" type="range" class="w-full" value="12" id="muddetipoteka" min="1" max="25">
+                <div class="flex justify-between my-2">
+                    <span class="text-[#7a7d82]">1 il</span>
+                    <span class="text-[#7a7d82]">25 il</span>
+                </div>
+            </div>
+            <div class="my-2">
+                <div class="flex justify-between my-2">
+                    <span class="text-[#7a7d82]">Illik faiz derecesi</span>
+                    <!-- <span id="faizvalue" class="font-semibold text-[19px]">12 %</span> -->
+                </div>
+                
+                <div class="flex gap-2 my-2">
+                    <span class="px-3 py-1 bg-[#f1f1f1] rounded-2xl" onclick="ipotekafaiz(this,4)">4%</span>
+                    <span class="px-3 py-1 bg-[#f1f1f1] rounded-2xl" onclick="ipotekafaiz(this,7)">7%</span>
+                    <span class="px-3 py-1 bg-[#f1f1f1] rounded-2xl" onclick="ipotekafaiz(this,8)">8%</span>
+                    <span class="px-3 py-1 bg-[#f1f1f1] rounded-2xl" onclick="ipotekafaiz(this,11)">11%</span>
+                    <span class="px-3 py-1 bg-[#f1f1f1] rounded-2xl" onclick="ipotekafaiz(this,12)">12%</span>
+                    <span class="px-3 py-1 bg-[#f1f1f1] rounded-2xl" onclick="ipotekafaiz(this,13)">13%</span>
+                </div>
+            </div>
+        </div>
+        <div class="w-[35%] flex flex-col">
+            <div class="bg-[#1b63ed]  w-full rounded-3xl p-[32px] text-center">
+                <h4 class="text-white">Aylıq kredit ödənişi</h4>
+                <h1 id="ayliqipoteka" class="text-[40px] mb-10 mt-3 font-semibold text-white">888.49 ₼</h1>
+                <div class="flex w-[80%] justify-between m-auto my-5">
+                    <div class="">
+                        <p class="text-white">Kredit məbləği</p>
+                        <p id="kreditmeblegipoteka2" class="text-[25px] font-semibold text-white">100000 ₼</p>
+                    </div>
+                    <div class="">
+                        <p class="text-white">İllik faiz dərəcəsi</p>
+                        <p id="illikfaizderecesiipoteka" class="text-[25px] font-semibold text-white">14 %</p>
+                    </div>
+                </div>
+                <button class="bg-white w-full p-4 rounded-2xl">Davam et</button>
+            </div>
+            <p class="text-center mt-3">İlkin hesablama</p>
+        </div>
+    </div>
+    <script src="js/App.js"></script>
 </body>
-
 </html>
